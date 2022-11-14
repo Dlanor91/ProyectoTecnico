@@ -1,0 +1,84 @@
+﻿@model ProyectoTecnico.Models.Persona
+
+@{
+    ViewData["Title"] = "Insertar";
+}
+
+<h2>Insertar</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="crearJugador" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control"/>
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="radio" name="opc" value="1" onchange="mostrar(this.value);"/> Jugador
+                <input type="radio" name="opc" value="2" onchange="mostrar(this.value);"/> Cuerpo Tecnico<br>
+                
+                <select id="jugadores" name="jugadores" hidden ="hidden">
+                    <option value="">Seleccione una Posición</option>
+                    <option value="POR">Portero</option>
+                    <option value="DEF">Defensa</option>
+                    <option value="MED">Mediocampo</option>
+                    <option value="DEL">Delantero</option>
+                </select>
+                
+                <select id="cuerpoTecnico" name="cuerpoTecnico" hidden="hidden">
+                    <option value="">Seleccione un Roll</option>
+                    <option value="DT">Director Técnico</option>
+                    <option value="AT">Asistente Técnico</option>
+                    <option value="MD">Médico</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Insertar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Mostrar Plantel</a>
+</div>
+
+<p id="pMensaje">@ViewBag.Error</p>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        document.querySelector("#crearJugador").addEventListener('submit', validar)
+        function validar(evento) {
+            evento.preventDefault();
+            let jugadores = document.querySelector("#jugadores").value;
+            let cuerpoTec = document.querySelector("#cuerpoTecnico").value;                  
+            if (jugadores == "" && cuerpoTec == "") {
+                document.querySelector("#pMensaje").innerHTML = "Seleccione un Roll o Jugador.";
+            } else {
+                this.submit();
+            }
+        }
+        
+        function mostrar(dato) {
+                       
+            if (dato == "1") {
+                document.getElementById("jugadores").removeAttribute("hidden");
+                document.getElementById("cuerpoTecnico").setAttribute("hidden","hidden");
+            } else {
+                document.getElementById("cuerpoTecnico").removeAttribute("hidden");
+                document.getElementById("jugadores").setAttribute("hidden","hidden");
+            }
+        }
+
+    </script>
+
+}

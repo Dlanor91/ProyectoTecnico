@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ProyectoTecnico.Models.Jugador>
+
+@{
+    ViewData["Title"] = "Listar";
+}
+
+<h2>Plantel de Futboll</h2>
+
+<p>
+    <a asp-action="Create">Insertar Nuevo Integrante</a> |
+    <a asp-action="listarAlineaciones">Mostrar Alineaciones</a>
+</p>
+<form asp-action="List" id="crearAlineacion" method="post">
+    <select id="formacion" name="formacion">
+        <option value="">Seleccione una Formación</option>
+        @foreach (ProyectoTecnico.Models.Formacion item in ViewBag.Formacion)
+        {
+            <option value=@item.id>@item.formacion</option>
+
+        }
+    </select>
+
+    <table class="table" id="cuerpo">
+        <thead>
+            <tr>
+                <th>
+                    Posición / Cargo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ProyectoTecnico.Models.Jugador item in ViewBag.Jugador)
+            {
+
+                <tr>
+                    @if (item.posCampo == "POR" || item.posCampo == "DEF" || item.posCampo == "MED" || item.posCampo =="DEL")
+                    {
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.posCampo)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.rolCuerpoTecnico)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        <input type="checkbox" value=@item.id class="valores" name="seleccionados" id=@item.id />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Insertar Alineación" class="btn btn-primary" id="seleccionar" />
+    </div>
+    <p id="pMensaje">@ViewBag.msg</p>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        document.querySelector("#crearAlineacion").addEventListener('submit', validar)
+        function validar(evento) {
+            evento.preventDefault();
+            let formacion = document.querySelector("#formacion").value;
+            if (formacion == "") {
+                document.querySelector("#pMensaje").innerHTML = "Seleccione una Formacion";
+            } else {
+                this.submit();
+            }
+        }
+    </script>
+
+}
+

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProyectoTecnico.Models.Jugador>
+
+@{
+    ViewData["Title"] = "Alineacion";
+}
+
+<div class="container" id="pagina" style='background-image: url( @Url.Content("~/img/campos.png") );
+        background-repeat: no-repeat;
+        background-size: cover
+    '>
+    <h4>@ViewBag.form</h4>
+    <h6>
+        Jugadores Convocados
+    </h6>
+    @foreach (var item in Model)
+    {
+        @if (item.posCampo == "POR")
+        {
+            <article class="col">
+                (@Html.DisplayFor(modelItem => item.posCampo))
+                @Html.DisplayFor(modelItem => item.Nombre)
+                <img src="~/img/camiseta.png" width="100" height="100" />
+            </article>
+        }
+        else if (item.posCampo == "DEF")
+        {
+            <article class="col">
+                (@Html.DisplayFor(modelItem => item.posCampo))
+                @Html.DisplayFor(modelItem => item.Nombre)
+                <img src="~/img/camiseta.png" width="100" height="100" />
+            </article>
+        }
+        else if (item.posCampo == "MED")
+        {
+            <article class="col">
+                (@Html.DisplayFor(modelItem => item.posCampo))
+                @Html.DisplayFor(modelItem => item.Nombre) <img src="~/img/camiseta.png" width="100" height="100" />
+            </article>
+
+        }
+        else if (item.posCampo == "DEL")
+        {
+            <article class="col">
+                (@Html.DisplayFor(modelItem => item.posCampo))
+                @Html.DisplayFor(modelItem => item.Nombre) <img src="~/img/camiseta.png" width="100" height="100" />
+            </article>
+
+        }
+    }
+    <h6>
+        Cuerpo Técnico
+    </h6>
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                @if (item.rolCuerpoTecnico == "DT" || item.rolCuerpoTecnico == "AT" || item.rolCuerpoTecnico == "MD")
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rolCuerpoTecnico)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido) |
+                    </td>
+                }
+            </tr>
+        </tbody>
+    }
+</div>
+

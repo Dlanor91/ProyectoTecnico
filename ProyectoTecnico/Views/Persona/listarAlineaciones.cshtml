@@ -1,0 +1,114 @@
+﻿@model IEnumerable<ProyectoTecnico.Models.Jugador>
+
+@{
+    ViewData["Title"] = "Listar Alineaciones";
+}
+
+@if (ViewBag.cant > 0)
+{
+
+    <form asp-action="listarAlineaciones" id="listar" method="post">
+
+        <select id="pos" name="pos">
+            <option value="0">Seleccione una formación </option>
+            @for (int i = 1; i<= ViewBag.cant; i++)
+            {
+                <option value=@i>Alineación @i </option>
+            }
+        </select><br><br>
+        <div class="form-group">
+            <input type="submit" value="Seleccionar" class="btn btn-primary" />
+        </div>
+    </form>
+    @if (Model != null)
+    {        
+<h4>@ViewBag.formacion</h4>
+        <h5>Cuerpo Técnico</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Rol
+                    </th>
+                    <th>
+                       Nombre
+                    </th>
+                    <th>
+                        Apellido
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @if (item.rolCuerpoTecnico == "DT" || item.rolCuerpoTecnico == "AT" || item.rolCuerpoTecnico == "MD")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.rolCuerpoTecnico)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <h5>Jugadores Convocados</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Posición
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                       Apellido
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="cuerpo">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @if (item.posCampo == "POR" || item.posCampo == "DEF" || item.posCampo == "MED" || item.posCampo =="DEL")
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.posCampo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <form asp-action="crearPDF" id="listar" method="post">
+            <div class="form-group">
+                <input type="submit" value="Generar PDF" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+}
+else
+{
+    <p>No hay alineaciones almacenadas</p>
+}
+
+
+
